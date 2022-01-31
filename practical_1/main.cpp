@@ -17,6 +17,7 @@ int main()
   circleShape.setPosition(sf::Vector2f(screenSize/2, screenSize/2));
   boxShape.setPosition(sf::Vector2f(screenSize/2, screenSize/2));
   boxShape.setOrigin(sf::Vector2f((radius * sqrt(2)) / 2, (radius * sqrt(2)) / 2));
+  //boxShape.setRotation(5.f);
 
   while (window.isOpen()){
       sf::Event event;
@@ -29,6 +30,7 @@ int main()
     
     window.draw(circleShape);
     window.draw(boxShape);
+    boxShape.rotate(0.1f);
     window.display();
   }
   return 0;
