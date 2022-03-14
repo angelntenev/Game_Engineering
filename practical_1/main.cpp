@@ -22,6 +22,7 @@ sf::CircleShape ball;
 sf::RectangleShape player1;
 sf::RectangleShape player2;
 sf::Text text;
+sf::Font font;
 
 sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "Pong");
 
@@ -45,8 +46,7 @@ void Load()
     ball.setOrigin(Vector2f(ballRadius,ballRadius));
     ball.setPosition(screenVec / 2.f);
     ballVelocity = {(server ? 100.0f : -100.0f), 60.0f};
-    sf::Font font;
-    font.loadFromFile("\SupermercadoOneRegular.ttf");
+    font.loadFromFile("res/SupermercadoOne-Regular.ttf");
     text.setFont(font);
     text.setCharacterSize(24);
     text.setString(std::to_string(p1Score) + " : " + std::to_string(p2Score));
@@ -55,11 +55,11 @@ void Load()
 
 void Reset()
 {
+    text.setString(std::to_string(p1Score) + " : " + std::to_string(p2Score));
     ball.setPosition(screenVec / 2.f);
     player1.setPosition(sf::Vector2f(5.f + (paddleSize.x / 2), (screenVec.y / 2.f)));
     player2.setPosition(sf::Vector2(screenWidth - (paddleSize.x / 2) - 5.f, (screenVec.y / 2)));
     ballVelocity = { (server ? 100.0f : -100.0f), 60.0f };
-    text.setString(std::to_string(p1Score) + " : " + std::to_string(p2Score));
 }
 
 void Update(RenderWindow &window)
@@ -116,13 +116,17 @@ void Update(RenderWindow &window)
         ballVelocity.x *= 1.1f;
         ballVelocity.y *= -1.1f;
         ball.move(Vector2f(0, 10));
+
     }
     else if (ballx > screenWidth)
     {
+        p1Score++;
         Reset();
+        cout << p1Score << " " << p2Score << endl;
     }
     else if (ballx < 0)
     {
+        p2Score++;
         Reset();
     }
     else if (ballx < paddleSize.x &&
@@ -148,6 +152,7 @@ void Render(RenderWindow& window)
     window.draw(player1);
     window.draw(player2);
     window.draw(ball);
+    window.draw(text);
 }
 
 int main()
